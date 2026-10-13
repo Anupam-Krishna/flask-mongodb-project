@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Flask & MongoDB | Task Manager</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #101827, #243b55);
+            color: #f8fafc;
+        }
+
+        header {
+            padding: 24px 8%;
+            border-bottom: 1px solid #ffffff25;
+            background: #101827cc;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 25px;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            margin-bottom: 0;
+            color: #aab8cc;
+        }
+
+        main {
+            width: min(760px, 92%);
+            margin: 55px auto;
+        }
+
+        .panel {
+            padding: 30px;
+            background: #ffffff0c;
+            border: 1px solid #ffffff20;
+            border-radius: 18px;
+            box-shadow: 0 18px 45px #00000030;
+        }
+
+        .eyebrow {
+            color: #60a5fa;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 29px;
+        }
+
+        .description {
+            color: #bdc8d8;
+            line-height: 1.6;
+        }
+
+        form {
+            display: flex;
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        input {
+            flex: 1;
+            min-width: 0;
+            padding: 14px;
+            border: 1px solid #475569;
+            border-radius: 9px;
+            background: #172235;
+            color: white;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: 2px solid #60a5fa;
+        }
+
+        button {
+            padding: 14px 20px;
+            border: none;
+            border-radius: 9px;
+            background: #3b82f6;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #2563eb;
+        }
+
+        .task-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #ffffff20;
+        }
+
+        .task-heading h3 {
+            margin: 0;
+        }
+
+        .count {
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #1d4ed8;
+            font-size: 12px;
+        }
+
+        .task-list {
+            padding: 0;
+            list-style: none;
+        }
+
+        .task-list li {
+            margin-top: 10px;
+            padding: 15px;
+            border: 1px solid #ffffff18;
+            border-radius: 10px;
+            background: #ffffff08;
+            overflow-wrap: anywhere;
+        }
+
+        .empty {
+            padding: 25px 10px;
+            color: #aab8cc;
+            text-align: center;
+        }
+
+        footer {
+            padding: 20px;
+            color: #94a3b8;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        @media (max-width: 520px) {
+            form {
+                flex-direction: column;
+            }
+
+            .panel {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>MongoDB Task Manager</h1>
+        <p>A Flask-powered task management dashboard</p>
+    </header>
+
+    <main>
+        <section class="panel">
+            <div class="eyebrow">Your workspace</div>
+
+            <h2>Manage your tasks</h2>
+
+            <p class="description">
+                Add a task below. Your tasks are saved in MongoDB
+                and displayed whenever you open this page.
+            </p>
+
+            <form action="/add" method="POST">
+                <input
+                    type="text"
+                    name="task"
+                    placeholder="Enter your next task..."
+                    maxlength="200"
+                    required
+                >
+
+                <button type="submit">+ Add Task</button>
+            </form>
+
+            <div class="task-heading">
+                <h3>Saved tasks</h3>
+
+                <span class="count">
+                    {{ todos|length }} tasks
+                </span>
+            </div>
+
+            {% if todos %}
+                <ul class="task-list">
+                    {% for todo in todos %}
+                        <li>{{ todo.task }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="empty">
+                    No tasks yet. Add your first task above.
+                </div>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer>
+        Built with Python Flask and MongoDB
+    </footer>
+</body>
+</html>
